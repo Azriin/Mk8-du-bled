@@ -1,7 +1,7 @@
 import pyxel
 
 class Car:
-    def __init__(self, x, y, couleur, angle, controle, mode_facile):
+    def __init__(self, x, y, couleur, angle, controle):
         #course
         self.dist = 0
         self.lape = 0
@@ -18,7 +18,9 @@ class Car:
         self.brake = False
         self.sur_route = True
         self.slow = 1.5
-        self.mode_facile = mode_facile
+        self.delta_degre = 0
+        self.delta_max = 100
+        self.debut_drift = 90
         #affichage
         self.couleur = couleur
         self.controle = controle
@@ -62,6 +64,7 @@ class Car:
             self.couleur -= 1 if self.couleur > 0 else 0
         # pyxel.pset(self.x+4 + 6 * pyxel.cos(self.degre), self.y+4 + 6 * pyxel.sin(self.degre), 7)
         self.draw_win(238, 2)
+        pyxel.line(self.x, self.y, self.x+self.vx, self.y+self.vy, 8)
         pyxel.text(1, 1,f"""x = {self.x} | y = {self.y} 
                    \nvitesse = {self.vitesse} | Vmax = {self.Vmax} | angle = {self.degre} | brake = {self.brake}
                     \nvx = {self.set_pas()[0]} | vy = {self.set_pas()[1]} 
@@ -70,10 +73,12 @@ class Car:
                     \nidtemp = {self.degre % 360 // (360//len(self.template))} | couleur = {self.couleur}
                     \ntour = {self.lape} | partie = {self.part} |len = {len(self.course)} 
                     \ncourse = {self.course}
-                    \ndist point = {self.dist}""", 7)
+                    \ndist point = {self.dist}
+                    \ndelta = {self.delta_degre}| drift = {abs(self.delta_degre) > self.debut_drift}
+                    \n\n\n\n\n\n
+                    \nA = +1 Vmax | Q = -1 Vmax
+                    \nE = +1 couleur | D = -1 couleur""", 7)
         
-        pyxel.text(1, 238, """A = +1 Vmax | Q = -1 Vmax
-                   \nE = +1 couleur | D = -1 couleur""", 7)
 #affichage
     def draw(self):
         indice = self.degre % 360 // (360//len(self.template))
@@ -81,6 +86,18 @@ class Car:
 
     def draw_win(self, x, y):
         pyxel.blt(x, y, 0, 16*self.couleur, 41, 16, 12, 4)
+
+#son
+    def playTutureVroumVroum(self):
+        if abs(self.vitesse) > 0:
+            pyxel.sound(4).speed = max(10-int(abs(self.vitesse))*2, 1)
+            if abs(self.vitesse) == self.Vmax:
+                pyxel.sound(4).set_volumes("2")
+            else: pyxel.sound(4).set_volumes("1")
+            if abs(self.delta_degre) > self.debut_drift:
+                pyxel.sound(4).set_notes("d2")
+            else: pyxel.sound(4).set_notes("c2")
+            pyxel.play(0, 4)
 #collision
     def distance(self):
         return ((self.vx)**2 + (self.vy)**2)**0.5
@@ -116,27 +133,49 @@ class Car:
             vitesse /= self.slow
         return [vitesse * (pyxel.cos(self.degre)), vitesse * (pyxel.sin(self.degre))]
 
+    def set_pas_drift(self):
+        vitesse = self.vitesse
+        if not(self.sur_route):
+            vitesse /= self.slow
+        vitesse_x = vitesse * pyxel.cos(self.degre)
+        vitesse_y = vitesse * pyxel.sin(self.degre)
+        facteur_drift = 1-(1/(1+abs(self.vitesse)))
+        drift_x = facteur_drift * vitesse_y
+        drift_y = -facteur_drift * vitesse_x
+        velocite_x = vitesse_x + drift_x
+        velocite_y = vitesse_y + drift_y
+        return [velocite_x, velocite_y]
+
     def actu_vecteur(self, pas):
         self.vx = pas[0]
         self.vy = pas[1]
 
     def move(self):
-        if not(self.brake):
-            if pyxel.btn(eval(f"pyxel.{self.controle['bas']}")):
-                self.vitesse -= 1 if self.vitesse > -self.Vmax else 0
-            if pyxel.btn(eval(f"pyxel.{self.controle['haut']}")):
-                if self.vitesse < self.Vmax:
-                    self.vitesse += 1 
-                elif self.mode_facile:
-                    self.degre = round(self.degre/90)*90
-            elif not(self.mode_facile):
-                if pyxel.frame_count % 10 == 0:
-                    if self.vitesse != 0:
-                        self.vitesse -= 1*pyxel.sgn(self.vitesse)
+        if not(self.brake) and pyxel.btn(eval(f"pyxel.{self.controle['bas']}")):
+            self.vitesse -= 1 if self.vitesse > -self.Vmax else 0
+        if not(self.brake) and pyxel.btn(eval(f"pyxel.{self.controle['haut']}")):
+            if self.vitesse < self.Vmax:
+                self.vitesse += 1 
+        if pyxel.frame_count % 10 == 0:
+            if self.vitesse != 0:
+                self.vitesse -= 1*pyxel.sgn(self.vitesse)
         if pyxel.btn(eval(f"pyxel.{self.controle['droite']}")):
             self.degre += 10
+            self.delta_degre += 10 if self.delta_degre < self.delta_max else 0
         if pyxel.btn(eval(f"pyxel.{self.controle['gauche']}")):
             self.degre -= 10
+            self.delta_degre -= 10 if self.delta_degre > -self.delta_max else 0
+        if self.vitesse > 0:
+            if self.delta_degre > 0:
+                self.delta_degre -= abs(self.vitesse)
+            elif self.delta_degre < 0:
+                self.delta_degre += abs(self.vitesse)
+        else: self.delta_degre = 0
+
+    def actuCoo(self, id, newX, newY, newAngle):
+        self.lst_voitures[id].x = newX
+        self.lst_voitures[id].y = newY
+        self.lst_voitures[id].degre = newAngle
 #course
     def dist_point(self, point):
         self.dist = (((point[5][0]-self.x)**2)+((point[5][1]-self.y)**2))
@@ -172,7 +211,10 @@ class Car:
 #update
     def update(self, hp, parts):
         self.move()
-        self.actu_vecteur(self.set_pas())
+        self.playTutureVroumVroum()
+        if abs(self.delta_degre) > self.debut_drift:
+            self.actu_vecteur(self.set_pas_drift())
+        else: self.actu_vecteur(self.set_pas())
         distance = self.distance()
         if distance == 0:
             distance = 1
@@ -186,18 +228,16 @@ class Car:
 
 
 class Lst_Cars:
-    def __init__(self, nbr, gm, map):
-        assert nbr <= 5
+    def __init__(self, nbr, map):
         self.nbr = nbr
-        self.gm = gm
-        self.info = [{"angle": 0, "x": "70-8*i", "y":"210 if i%2==0 else 226"},
-                     {"angle": 180, "x": "132+8*i", "y":"12 if i%2==0 else 28"},
-                     {"angle": 180, "x": "146+8*i", "y": "210 if i%2==0 else 222"}]
         self.controle = [{"haut": "KEY_UP", "bas": "KEY_DOWN", "gauche": "KEY_LEFT", "droite": "KEY_RIGHT"},
                          {"haut": "KEY_Z", "bas": "KEY_S", "gauche": "KEY_Q", "droite": "KEY_D"},
                          {"haut": "KEY_O", "bas": "KEY_L", "gauche": "KEY_K", "droite": "KEY_M"},
                          {"haut": "KEY_KP_5", "bas": "KEY_KP_2", "gauche": "KEY_KP_1", "droite": "KEY_KP_3"}]
-        self.lst_voitures = [Car(eval(self.info[map]["x"]), eval(self.info[map]["y"]), i, self.info[map]["angle"], self.controle[i%len(self.controle)], self.gm) for i in range(self.nbr)]
+        self.coo = [(-7, -1), (-1, -7), (1, -1), (-1, 1)]
+        self.lst_voitures = []
+        for i in range(self.nbr):
+            self.lst_voitures.append(Car(map[i][0]+self.coo[map[i][2]][0], map[i][1]+self.coo[map[i][2]][1], i, map[i][2]*90, self.controle[i%len(self.controle)]))
         self.nbr_debug_car = 0
 
     def get_cars(self):
@@ -208,13 +248,21 @@ class Lst_Cars:
             car.draw()
 
     def update(self, hp, parts):
-        for car in self.lst_voitures:
-            car.update(hp, parts)
+        for i in range(len(self.lst_voitures)):
+            self.lst_voitures[i].update(hp, parts)
 
     def switch_debug_car(self):
         for i in range(self.nbr):
             if eval(f"pyxel.btn(pyxel.KEY_{i+1})"):
                 self.nbr_debug_car = i
 
+    def add_car(self):
+        i = len(self.lst_voitures)
+        self.lst_voitures.append(Car(eval(self.info[map]["x"]), eval(self.info[map]["y"]), i, self.info[map]["angle"], self.controle[i%len(self.controle)]))
+
+    def rem_car(self):
+        self.lst_voitures.pop()
+
     def debug(self):
         self.lst_voitures[self.nbr_debug_car].debug()
+

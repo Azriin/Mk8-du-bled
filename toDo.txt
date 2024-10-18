@@ -1,0 +1,22 @@
+ajouter un multi global
+ajouter une IA modulable (facile moyenne difficile)
+ajouter particule aux drifts
+ajouter un moyen de télécharger une carte si celle si n'existe pas chez le client en LAN
+ajouter une gomme dans l'éditeur
+ajouter un outils lignes pour faire des routes droites dans l'éditeur
+
+bug LAN:
+	//bug id de tout les clients
+	//message ready de la mauvaise col
+	//impossible de voir quand un joueur est prêt
+	//la carte change quand un client veut voir la liste des cartes possibles si pas adm
+	(OSEF)plus de message quand on change de carte
+	//le nom d'une room ne s'actualise pas après reception
+	//quand 2 client sont en ligne et avant la creation de serveur, et qu'ils la join, bug 3 joueur affiche au lieu de 2
+	//room toujours afficher après fermeture
+	(OSEF ?)renforcer la sécu de la creation de serv, empêcher d'avoir 2 room avec le meme port
+		juste empêcher 2 admin dans la meme room
+	//renforcer la reception de message: (fait ?????)
+		//éviter doublon system
+		//éviter la non reception de message System
+		//éviter de traiter des message d'un autre port
