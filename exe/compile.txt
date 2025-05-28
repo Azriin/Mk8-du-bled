@@ -1,0 +1,1 @@
+pyinstaller --noconfirm --onedir --windowed --icon "C:/Users/Antoni/code/python/MKDuBled/Mk8-du-bled/images/logo.ico" --name "MKDuBled" --clean --add-data "C:/Users/Antoni/code/python/MKDuBled/Mk8-du-bled/images;images/" --add-data "C:/Users/Antoni/code/python/MKDuBled/Mk8-du-bled/maps;maps/"  "C:/Users/Antoni/code/python/MKDuBled/Mk8-du-bled/main.py"

@@ -1,5 +1,0 @@
--ajout d'un éditeur de carte
--ajout de 3 nouvelles cartes
--ajout d'un dérapage si la voiture tourne trop rapidement
--ajout d'un mode de jeu en lan
--ajout de nouveaux sons

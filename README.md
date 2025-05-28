@@ -3,6 +3,8 @@
 > Un mario kart, qui n'y ressemble pas et en python sous pyxel...<br/> 
 > Plus un projet pour savoir ce que je sais faire.<br/> 
 
+> [!IMPORTANT]
+> Pour lancer le jeu, il faut executer le fichier ./exe/MKDuBled/MKDuBled.exe
 
 ## DERNIERS AJOUTS :
 - [x] Ajout d'un éditeur de carte
