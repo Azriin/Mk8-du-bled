@@ -44,6 +44,9 @@ class Carre:
                 self.carre(self.saveX, self.saveY, pyxel.mouse_x, pyxel.mouse_y)
             else : self.reorder(self.saveX, self.saveY, pyxel.mouse_x, pyxel.mouse_y)
 
+    def mouseOver(self):
+        return self.x1 <= pyxel.mouse_x < self.x2 and self.y1 <= pyxel.mouse_y < self.y2
+
 class CreationMurs:
     def __init__(self):
         self.color = 8

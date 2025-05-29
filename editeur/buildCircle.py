@@ -13,6 +13,12 @@ class cercle:
     def draw(self):
         pyxel.circ(self.x, self.y, self.r, self.col)
 
+    def mouseOver(self):
+        return -self.r <= pyxel.mouse_x - self.x <= self.r and -self.r <= pyxel.mouse_y - self.y <= self.r 
+    
+    def distance(self):
+        return (self.x - pyxel.mouse_x)**2 + (self.y - pyxel.mouse_y)**2 
+
 class roadBuilder:
     def __init__(self):
         self.lstRoad = [[]]

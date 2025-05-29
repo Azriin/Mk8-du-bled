@@ -1,3 +1,5 @@
+version = "V5.0"
+
 frame_rate = 30
 arret = 5
 

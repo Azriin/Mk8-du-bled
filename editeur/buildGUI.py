@@ -7,8 +7,8 @@ class GUITool:
         self.boutSelect = None
         self.cle = None
         self.bouton = {
-            "save": addon_pyxel.TextButton(194, 198, "save", 6, 12),
-            "quit": addon_pyxel.TextButton(194, 227, "quit", 0, 1),
+            "save": addon_pyxel.TextButton(127, 4, "save", 6, 12),
+            "quit": addon_pyxel.TextButton(194, 4, "quit", 0, 5),
             "load": addon_pyxel.TextButton(4, 4, "load", 12, 5),
             "new": addon_pyxel.TextButton(71, 4, "new", 12, 5)
         }
@@ -18,7 +18,8 @@ class GUITool:
             "separator": addon_pyxel.Bouton_radio(57, 208, False, 15),
             "dist_next": addon_pyxel.Bouton_radio(57, 234, False, 15, col_out=10),
             "starts": addon_pyxel.Bouton_radio(133, 208, False, 15, col_out=7, col_over=0),
-            "deco": addon_pyxel.Bouton_radio(133, 234, False, 15, col_out=2)
+            "deco": addon_pyxel.Bouton_radio(133, 234, False, 15, col_out=2),
+            "erase": addon_pyxel.Bouton_radio(197, 208, False, 15, col_out=14)
         }
         self.text = addon_pyxel.BigTexte(137, 8, "")
     
@@ -33,21 +34,21 @@ class GUITool:
             pyxel.rectb(0, 192, 51, 64, 7)
             pyxel.rectb(51, 192, 76, 64, 7)
             pyxel.rectb(127, 192, 129, 64, 7)
-            pyxel.rectb(192, 193, 63, 62, 7)
-            pyxel.line(191, 193, 191, 254, 7)
             pyxel.text(2, 194, "Tools:", 7)
             pyxel.line(0, 200, 25, 200, 7)
             pyxel.text(54, 194, "Road parts:", 7)
             pyxel.line(52, 200, 97, 200, 7)
             pyxel.text(130, 194, "Other:", 7)
             pyxel.line(128, 200, 153, 200, 7)
+            pyxel.line(191, 208, 191, 248, 7)
 
             pyxel.text(23, 214, "Walls", 8)
             pyxel.text(23, 240, "Roads", 13)
             pyxel.text(74, 214, "Separators", 0)
             pyxel.text(74, 240, "Dist next", 10)
             pyxel.text(150, 214, "Starts", 7)
-            pyxel.text(150, 240, "deco", 2)
+            pyxel.text(150, 240, "Decoration", 2)
+            pyxel.text(214, 214, "Eraser", 14)
             for key in self.bouton:
                 self.bouton[key].draw()
             for key in self.radio:
@@ -57,6 +58,7 @@ class GUITool:
 
     def update(self):
         if pyxel.btnp(pyxel.KEY_SPACE):
+            pyxel.mouse(True)
             self.actif = not(self.actif)
         if self.actif:   
             for key in self.bouton:

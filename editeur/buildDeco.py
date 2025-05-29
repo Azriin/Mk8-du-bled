@@ -10,6 +10,8 @@ class Deco:
     def draw(self):
         pyxel.blt(self.x, self.y, 0, 16*self.indice, 240-16*self.rotation, 16, 16, 4)
 
+    def mouseOver(self):
+        return self.x <= pyxel.mouse_x < self.x+16 and self.y <= pyxel.mouse_y < self.y+16
 
 class MenuDeco:
     def __init__(self):

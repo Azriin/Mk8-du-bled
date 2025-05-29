@@ -9,6 +9,7 @@ import editeur.buildLoad as bl
 import loadMap as lm
 import editeur.buildDeco as bd
 import editeur.buildNew as bn
+import editeur.buildErase as be
 from menus.menu import Menu
 
 class Editor(Menu):
@@ -20,8 +21,10 @@ class Editor(Menu):
             "separator": sb.CreationSep(),
             "dist_next": db.CreationPoint(),
             "starts": stb.CreationStart(),
-            "deco": bd.MenuDeco()
+            "deco": bd.MenuDeco(),
+            # "erase": be.Erase()
         }
+        self.tool["erase"] = be.Erase(self.tool)
         self.menuAction = {
             "save": self.set_save,
             "quit": self.set_quit,
@@ -36,7 +39,7 @@ class Editor(Menu):
         self.guiTool = tool.GUITool()
         self.cross = False
         self.debug = False
-        self.cle = ["road", "wall", "separator", "dist_next", "starts", "deco"]
+        self.cle = ["road", "wall", "separator", "dist_next", "starts", "deco", "erase"]
         self.indice = 0
 
     def draw(self):
