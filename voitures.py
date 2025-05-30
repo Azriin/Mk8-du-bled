@@ -24,33 +24,37 @@ class Car:
         #affichage
         self.couleur = couleur
         self.controle = controle
-        self.template = ["pyxel.blt(self.x, self.y, 0, 0, 8*self.couleur, 8, 8, 4)",
-                "pyxel.blt(self.x, self.y, 0, 8, 8*self.couleur, 8, 8, 4)",
-                "pyxel.blt(self.x, self.y, 0, 16, 8*self.couleur, 8, 8, 4)",
-                "pyxel.blt(self.x, self.y, 0, 24, 8*self.couleur, 8, 8, 4)",
-                "pyxel.blt(self.x, self.y, 0, 32, 8*self.couleur, 8, 8, 4)",
-                "pyxel.blt(self.x, self.y, 0, 40, 8*self.couleur, 8, 8, 4)",
+        self.template = [[0, 8, 8],
+                [8, 8, 8],
+                [16, 8, 8],
+                [24, 8, 8],
+                [32, 8, 8],
+                [40, 8, 8],
                 
-                "pyxel.blt(self.x, self.y, 0, 40, 8*self.couleur, -8, 8, 4)",
-                "pyxel.blt(self.x, self.y, 0, 32, 8*self.couleur, -8, 8, 4)",
-                "pyxel.blt(self.x, self.y, 0, 24, 8*self.couleur, -8, 8, 4)",
-                "pyxel.blt(self.x, self.y, 0, 16, 8*self.couleur, -8, 8, 4)",
-                "pyxel.blt(self.x, self.y, 0, 8, 8*self.couleur, -8, 8, 4)",
-                "pyxel.blt(self.x, self.y, 0, 0, 8*self.couleur, -8, 8, 4)",
+                [40, -8, 8],
+                [32, -8, 8],
+                [24, -8, 8],
+                [16, -8, 8],
+                [8, -8, 8],
+                [0, -8, 8],
                 
-                "pyxel.blt(self.x, self.y, 0, 0, 8*self.couleur, -8, -8, 4)",
-                "pyxel.blt(self.x, self.y, 0, 8, 8*self.couleur, -8, -8, 4)",
-                "pyxel.blt(self.x, self.y, 0, 16, 8*self.couleur, -8, -8, 4)",
-                "pyxel.blt(self.x, self.y, 0, 24, 8*self.couleur, -8, -8, 4)",
-                "pyxel.blt(self.x, self.y, 0, 32, 8*self.couleur, -8, -8, 4)",
-                "pyxel.blt(self.x, self.y, 0, 40, 8*self.couleur, -8, -8, 4)",
+                [0, -8, -8],
+                [8, -8, -8],
+                [16, -8, -8],
+                [24, -8, -8],
+                [32, -8, -8],
+                [40, -8, -8],
                 
-                "pyxel.blt(self.x, self.y, 0, 40, 8*self.couleur, 8, -8, 4)",
-                "pyxel.blt(self.x, self.y, 0, 32, 8*self.couleur, 8, -8, 4)",
-                "pyxel.blt(self.x, self.y, 0, 24, 8*self.couleur, 8, -8, 4)",
-                "pyxel.blt(self.x, self.y, 0, 16, 8*self.couleur, 8, -8, 4)",
-                "pyxel.blt(self.x, self.y, 0, 8, 8*self.couleur, 8, -8, 4)",
-                "pyxel.blt(self.x, self.y, 0, 0, 8*self.couleur, 8, -8, 4)",]
+                [40, 8, -8],
+                [32, 8, -8],
+                [24, 8, -8],
+                [16, 8, -8],
+                [8, 8, -8],
+                [0, 8, -8]]
+        
+        self.particulDrift = []
+        self.maxParticul = 10
+
 #debug
     def debug(self):
         if pyxel.btnp(pyxel.KEY_A):#vmax
@@ -82,7 +86,10 @@ class Car:
 #affichage
     def draw(self):
         indice = self.degre % 360 // (360//len(self.template))
-        eval(self.template[indice])
+        for coo in self.particulDrift:
+            pyxel.pset(*coo, 0)
+        pyxel.blt(self.x, self.y, 0, self.template[indice][0], 8*self.couleur, self.template[indice][1], self.template[indice][2], 4)
+        
 
     def draw_win(self, x, y):
         pyxel.blt(x, y, 0, 16*self.couleur, 41, 16, 12, 4)
@@ -144,6 +151,13 @@ class Car:
         drift_y = -facteur_drift * vitesse_x
         velocite_x = vitesse_x + drift_x
         velocite_y = vitesse_y + drift_y
+        # refaire les coos des particules
+        self.particulDrift.append([self.x, self.y+1])
+        self.particulDrift.append([self.x, self.y+7])
+        if (len(self.particulDrift) > 2*self.maxParticul):
+            self.particulDrift.pop(0)
+            self.particulDrift.pop(0)
+
         return [velocite_x, velocite_y]
 
     def actu_vecteur(self, pas):

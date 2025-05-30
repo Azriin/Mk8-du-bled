@@ -1,7 +1,7 @@
 version = "V5.0"
 
 frame_rate = 30
-arret = 5
+arret = 1
 
 max_player = 4
 min_player = 1

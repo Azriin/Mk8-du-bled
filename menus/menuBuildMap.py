@@ -21,8 +21,7 @@ class Editor(Menu):
             "separator": sb.CreationSep(),
             "dist_next": db.CreationPoint(),
             "starts": stb.CreationStart(),
-            "deco": bd.MenuDeco(),
-            # "erase": be.Erase()
+            "deco": bd.MenuDeco()
         }
         self.tool["erase"] = be.Erase(self.tool)
         self.menuAction = {
