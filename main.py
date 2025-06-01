@@ -7,7 +7,7 @@ import constante as c
 
 class App:
     def __init__(self):
-        pyxel.init(256, 256, "Mk8 du bled", fps=c.frame_rate)
+        pyxel.init(256, 256, "Mk8 du bled", fps=c.FRAME_RATE)
         pyxel.image(0).load(0, 0, "images/images.png")
         pyxel.sound(0).set("g4c4", "s", "3", "f", 7)#interacion
         pyxel.sound(1).set("e4", "p", "1", "n", 5)#mouse over

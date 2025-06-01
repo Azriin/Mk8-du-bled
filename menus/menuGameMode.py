@@ -51,9 +51,9 @@ class GameMode(Menu):
         for cle in self.radtour:
             self.radtour[cle].draw()
         pyxel.blt(1, 18, 0, 0, 87, 112, 3, 4)
-        if self.nbr_joueur != c.max_player:
+        if self.nbr_joueur != c.MAX_PLAYER:
             self.poussoir["add"].draw()
-        if self.nbr_joueur != c.min_player:
+        if self.nbr_joueur != c.MIN_PLAYER:
             self.poussoir["rem"].draw()
         for i in range(self.nbr_joueur):
             pyxel.blt(9, 35+i*45, 0, 216+10*i, 56, 10, 15, 4) #numéro
@@ -79,16 +79,16 @@ class GameMode(Menu):
             if self.radtour[cle].clic():
                 self.tour = cle
         #joueur
-        if self.nbr_joueur != c.max_player:
+        if self.nbr_joueur != c.MAX_PLAYER:
             self.poussoir["add"].animation()
             self.poussoir["add"].edit_y(27 + self.nbr_joueur*45)
             if self.poussoir["add"].clic():
-                self.nbr_joueur += 1 if self.nbr_joueur < c.max_player else 0
-        if self.nbr_joueur != c.min_player:
+                self.nbr_joueur += 1 if self.nbr_joueur < c.MAX_PLAYER else 0
+        if self.nbr_joueur != c.MIN_PLAYER:
             self.poussoir["rem"].animation()
             self.poussoir["rem"].edit_y(27 + self.nbr_joueur*45)
             if self.poussoir["rem"].clic():
-                self.nbr_joueur -= 1 if self.nbr_joueur > c.min_player else 0
+                self.nbr_joueur -= 1 if self.nbr_joueur > c.MIN_PLAYER else 0
         #map
         if self.visu.get_map() != c.carte:
             self.visu.set_map(c.carte)

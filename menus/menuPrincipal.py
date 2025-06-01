@@ -30,7 +30,7 @@ class MenuPrincipal(Menu):
         pyxel.tri(77, 0, 77, 255, 224, 255, 6)
         pyxel.rect(0, 0, 77, 256, 6)
         pyxel.blt(125, 17, 0, 0, 90, 128, 38, 13)
-        pyxel.text(5, 247, constante.version, 0)
+        pyxel.text(5, 247, constante.VERSION, 0)
         for cle in self.bouton:
             self.bouton[cle][0].draw()
 

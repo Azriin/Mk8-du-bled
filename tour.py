@@ -1,5 +1,5 @@
 import pyxel
-import constante as c
+# import constante as c
 
 class Lape:
     def __init__(self, lape):

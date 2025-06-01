@@ -44,9 +44,9 @@ class MenuChoseLan(menu.Menu):
                 pyxel.blt(128, 77+31*i, 0, 1, 87, 111, 3, 4)
                 pyxel.blt(17, 77+31*i, 0, 0, 87, 111, 3, 4)
                 addon_pyxel.BigTexte(22, 86+31*i, self.clt.getLstRoom()[self.maxRoom*self.page+i][2]+':').draw()
-                addon_pyxel.BigTexte(137, 86+31*i, f"{self.clt.getLstRoom()[self.maxRoom*self.page+i][1]}-{c.max_player}").draw()
+                addon_pyxel.BigTexte(137, 86+31*i, f"{self.clt.getLstRoom()[self.maxRoom*self.page+i][1]}-{c.MAX_PLAYER}").draw()
                 try:
-                    if int(self.clt.getLstRoom()[self.maxRoom*self.page+i][1]) < c.max_player:
+                    if int(self.clt.getLstRoom()[self.maxRoom*self.page+i][1]) < c.MAX_PLAYER:
                         self.butConnectRoom[self.maxRoom*self.page+i].draw()
                 except: pass
 
@@ -68,7 +68,7 @@ class MenuChoseLan(menu.Menu):
                 self.bouton[cle][1]()
         for i in range(len(self.butConnectRoom)):
             self.butConnectRoom[i].animation()
-            if int(self.clt.getLstRoom()[i][1]) < c.max_player and self.butConnectRoom[i].clic():
+            if int(self.clt.getLstRoom()[i][1]) < c.MAX_PLAYER and self.butConnectRoom[i].clic():
                 self.get_coonect(self.clt.getLstRoom()[i][0])
 
     def get_back(self):
@@ -77,7 +77,7 @@ class MenuChoseLan(menu.Menu):
 
     def get_create(self):
         super().reverse_actif()
-        self.clt.connectNewPort(True, c.init_Port+int(ip.get_code_room()))
+        self.clt.connectNewPort(True, c.INIT_PORT+int(ip.get_code_room()))
         self.set_nom("gamemode")
 
     def get_coonect(self, code):

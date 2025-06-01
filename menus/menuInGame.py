@@ -11,13 +11,13 @@ class In_game(menu.Menu):
         self.debug_menu = False
         self.map = loadMap.Load(c.carte)
         self.timer = pyxel.frame_count
-        self.arret = c.arret
+        self.arret = c.ARRET
         self.textTimer = addon_pyxel.BigTexte(123, 118, str(self.arret))
         self.players = voitures.Lst_Cars(c.nbr_player, self.map.get_starts())
         self.triPlayers = self.players.get_cars()[:]
 
     def drawTimer(self):
-        if self.timer + self.arret*c.frame_rate > pyxel.frame_count:
+        if self.timer + self.arret*c.FRAME_RATE > pyxel.frame_count:
             self.textTimer.draw()
             if pyxel.frame_count%30 == 0:
                 self.textTimer.setText(str(int(self.textTimer.getText())-1))

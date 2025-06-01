@@ -18,7 +18,7 @@ class start:
 
 class CreationStart:
     def __init__(self):
-        self.lstStart = [start(3*i, 0, 0) for i in range(c.max_player)]
+        self.lstStart = [start(3*i, 0, 0) for i in range(c.MAX_PLAYER)]
         self.angle = 0
 
     def draw(self):
@@ -31,7 +31,7 @@ class CreationStart:
 
     def update(self):
         if pyxel.btnp(pyxel.MOUSE_BUTTON_LEFT):
-            if len(self.lstStart) == c.max_player:
+            if len(self.lstStart) == c.MAX_PLAYER:
                 self.lstStart.pop(0)
             self.lstStart.append(start(pyxel.mouse_x, pyxel.mouse_y, self.angle))
         elif pyxel.btnp(pyxel.KEY_R):

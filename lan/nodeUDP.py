@@ -53,7 +53,7 @@ class NoeudUDP:
         self.inRoom = False
         self.inWin = False
 
-        self.port = c.init_Port
+        self.port = c.INIT_PORT
         self.sockBroadcast = None
         self.sockMessage = None
 
@@ -123,12 +123,12 @@ class NoeudUDP:
         self.isRunning = False
         self.sendMessage("System", f"RemPlayer {self.id}")
         if self.id == 0:
-            self.sendMessage("Room", f"DelRoom {self.port}", port=c.init_Port)
+            self.sendMessage("Room", f"DelRoom {self.port}", port=c.INIT_PORT)
         self.inRoom = False
         self.admin = False
         self.id = -1
         self.nbrmessage = 0
-        self.port = c.init_Port
+        self.port = c.INIT_PORT
 #________CONNEXION UDP________
 
 
@@ -211,7 +211,7 @@ class NoeudUDP:
     def sendRoomInfo(self):
         while self.isRunning:
             if self.admin:
-                self.sendMessage("Room", f"RoomInfo {self.port} {c.nbr_lan_player} {self.roomName}", c.init_Port)
+                self.sendMessage("Room", f"RoomInfo {self.port} {c.nbr_lan_player} {self.roomName}", c.INIT_PORT)
                 self.sendMessage("Room", f"ActuConstanteLan {c.nbr_lan_player} {c.max_lape} {c.carte} {''.join(str(int(bo)) for bo in self.lstready)}")
             
                 for i in range(len(self.compteurMsg["Time"])):

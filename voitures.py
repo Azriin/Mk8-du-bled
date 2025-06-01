@@ -1,4 +1,5 @@
 import pyxel
+import constante as c
 
 class Car:
     def __init__(self, x, y, couleur, angle, controle):
@@ -17,7 +18,7 @@ class Car:
         self.degre = angle
         self.brake = False
         self.sur_route = True
-        self.slow = 1.5
+        self.slow = 2
         self.delta_degre = 0
         self.delta_max = 100
         self.debut_drift = 90
@@ -53,7 +54,6 @@ class Car:
                 [0, 8, -8]]
         
         self.particulDrift = []
-        self.maxParticul = 10
 
 #debug
     def debug(self):
@@ -87,7 +87,7 @@ class Car:
     def draw(self):
         indice = self.degre % 360 // (360//len(self.template))
         for coo in self.particulDrift:
-            pyxel.pset(*coo, 0)
+            pyxel.pset(coo[0], coo[1], 0)
         pyxel.blt(self.x, self.y, 0, self.template[indice][0], 8*self.couleur, self.template[indice][1], self.template[indice][2], 4)
         
 
@@ -151,13 +151,10 @@ class Car:
         drift_y = -facteur_drift * vitesse_x
         velocite_x = vitesse_x + drift_x
         velocite_y = vitesse_y + drift_y
-        # refaire les coos des particules
-        self.particulDrift.append([self.x, self.y+1])
-        self.particulDrift.append([self.x, self.y+7])
-        if (len(self.particulDrift) > 2*self.maxParticul):
-            self.particulDrift.pop(0)
-            self.particulDrift.pop(0)
-
+        # refaire les coos des particules        
+        self.particulDrift.append([self.x + 1 - velocite_x, self.y + 4 - velocite_y, pyxel.frame_count])
+        self.particulDrift.append([self.x + 7 - velocite_x, self.y + 4 - velocite_y, pyxel.frame_count])
+        
         return [velocite_x, velocite_y]
 
     def actu_vecteur(self, pas):
@@ -239,6 +236,9 @@ class Car:
         self.lst_part()
         self.complet_lape(len(parts))
         self.dist_point(parts[self.course[-1]])
+
+        while (len(self.particulDrift) > 0 and self.particulDrift[0][2] + c.VIEPARTICULES <= pyxel.frame_count):
+            self.particulDrift.pop(0)
 
 
 class Lst_Cars:

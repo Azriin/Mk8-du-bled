@@ -42,7 +42,7 @@ class MenuLan(Menu):
     def set_play(self):
         if self.ready[self.client.getID()].actif:
             if self.client.admin and self.client.getAllReady():
-                self.client.sendMessage("InGame", f"StartRace {c.nbr_lan_player} {c.max_lape} {time.time()+c.arret} {c.carte}")
+                self.client.sendMessage("InGame", f"StartRace {c.nbr_lan_player} {c.max_lape} {time.time()+c.ARRET} {c.carte}")
             else:
                 self.client.sendMessage("Text", "I want to play")
         else:
