@@ -24,6 +24,7 @@ class Editor(Menu):
             "deco": bd.MenuDeco()
         }
         self.tool["erase"] = be.Erase(self.tool)
+        
         self.menuAction = {
             "save": self.set_save,
             "quit": self.set_quit,
@@ -51,6 +52,7 @@ class Editor(Menu):
         if self.cross:
             pyxel.line(0, pyxel.mouse_y, 256, pyxel.mouse_y, 0)
             pyxel.line(pyxel.mouse_x, 0, pyxel.mouse_x, 256, 0)
+            pyxel.text(2, 2, f"{pyxel.mouse_x:>3}:{pyxel.mouse_y:>3}", 0)
         self.guiTool.draw()
         for key in self.menu:
             self.menu[key].draw()
@@ -108,6 +110,7 @@ class Editor(Menu):
                 "starts": stb.CreationStart(),
                 "deco": bd.MenuDeco()
             }
+            self.tool["erase"] = be.Erase(self.tool)
             self.menu["new"].newMap = False
 
 

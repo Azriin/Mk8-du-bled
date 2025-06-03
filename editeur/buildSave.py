@@ -44,7 +44,7 @@ class SaveMenu:
         return self.actif
 
 class Save:
-    def __init__(self, nom, road, wall, separator, dist_next, starts, deco):
+    def __init__(self, nom, road, wall, separator, dist_next, starts, deco, erase):
         with open("maps/"+nom+".txt", "w") as file:
             for r in road.get_road():
                 file.write(f"{r.x, r.y, r.r, r.col}\n")
