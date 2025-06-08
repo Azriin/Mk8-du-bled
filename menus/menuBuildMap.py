@@ -6,7 +6,7 @@ import editeur.buildDist as db
 import editeur.buildStart as stb
 import editeur.buildSave as sm
 import editeur.buildLoad as bl
-import loadMap as lm
+import engine.loadMap as lm
 import editeur.buildDeco as bd
 import editeur.buildNew as bn
 import editeur.buildErase as be

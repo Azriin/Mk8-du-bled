@@ -1,8 +1,8 @@
 import pyxel
 import addon_pyxel
 import constante as c
-import voitures
-import loadMap
+import engine.ListPLayers as ListPLayers
+import engine.loadMap as loadMap
 import menus.menu as menu
 
 class In_game(menu.Menu):
@@ -13,7 +13,7 @@ class In_game(menu.Menu):
         self.timer = pyxel.frame_count
         self.arret = c.ARRET
         self.textTimer = addon_pyxel.BigTexte(123, 118, str(self.arret))
-        self.players = voitures.Lst_Cars(c.nbr_player, self.map.get_starts())
+        self.players = ListPLayers.Lst_Cars(c.nbr_player, self.map.get_starts())
         self.triPlayers = self.players.get_cars()[:]
 
     def drawTimer(self):
@@ -31,7 +31,7 @@ class In_game(menu.Menu):
         self.map = loadMap.Load(c.carte)
         self.timer = pyxel.frame_count
         self.textTimer = addon_pyxel.BigTexte(123, 118, str(self.arret))
-        self.players = voitures.Lst_Cars(c.nbr_player, self.map.get_starts())
+        self.players = ListPLayers.Lst_Cars(c.nbr_player, self.map.get_starts())
         self.triPlayers = self.players.get_cars()[:]
 
     def verif_lape(self):

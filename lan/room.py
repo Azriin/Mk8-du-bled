@@ -2,7 +2,7 @@ import pyxel
 from menus.menu import Menu
 import addon_pyxel
 import constante as c
-import visuMap
+import engine.visuMap as visuMap
 import lan.renameRoom as renameRoom
 import lan.tchat as tchat
 import constante as c

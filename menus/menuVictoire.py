@@ -1,14 +1,14 @@
 import pyxel
 import menus.menu as menu
 import addon_pyxel
-import voitures
-import loadMap
+import engine.ListPLayers as ListPLayers
+import engine.loadMap as loadMap
 import constante as c
 
 class Victoire(menu.Menu):
     def __init__(self, nom, actif, retour="gamemode"):
         super().__init__(nom, actif)
-        self.players = voitures.Lst_Cars(1, loadMap.Load(c.carte).get_starts()).get_cars()
+        self.players = ListPLayers.Lst_Cars(1, loadMap.Load(c.carte).get_starts()).get_cars()
         self.titre = addon_pyxel.BigTexte(114, 20, "ranking:")
         self.back = addon_pyxel.Bouton_slide(115, 193, "menu")
         self.retour = retour

@@ -1,7 +1,7 @@
 import menus.menuVictoire as menuVictoire
 import constante as c
-import voitures
-import loadMap
+import engine.ListPLayers as ListPLayers
+import engine.loadMap as loadMap 
 import pyxel
 
 def tri_matrice(matrice, numCol):
@@ -18,11 +18,11 @@ def tri_matrice(matrice, numCol):
 class LanVictoire(menuVictoire.Victoire):
     def __init__(self, nom, actif, retour="gamemode"):
         super().__init__(nom, actif, retour)
-        self.modele = voitures.Lst_Cars(1, loadMap.Load(c.carte).get_starts()).get_cars()
+        self.modele = ListPLayers.Lst_Cars(1, loadMap.Load(c.carte).get_starts()).get_cars()
 
     def actu_players(self, new_players):
         super().actu_players(new_players)
-        self.modele = voitures.Lst_Cars(c.nbr_player, loadMap.Load(c.carte).get_starts()).get_cars()
+        self.modele = ListPLayers.Lst_Cars(c.nbr_player, loadMap.Load(c.carte).get_starts()).get_cars()
         if len(self.players) != c.nbr_player:
             self.triPlayers()
 

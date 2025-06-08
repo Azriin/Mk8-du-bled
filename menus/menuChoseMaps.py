@@ -1,7 +1,7 @@
 import pyxel
 import os
 import addon_pyxel
-import visuMap
+import engine.visuMap as visuMap
 import constante as c
 from menus.menu import Menu
 

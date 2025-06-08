@@ -1,5 +1,5 @@
 import pyxel
-import loadMap
+import engine.loadMap as loadMap
 
 class Visu:
     def __init__(self, file, ratio):

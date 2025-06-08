@@ -1,6 +1,6 @@
 import pyxel
-import tour
-import mur
+import engine.tour as tour
+import engine.mur as mur
 import editeur.buildStart as buildStart
 import editeur.buildDeco as buildDeco
 

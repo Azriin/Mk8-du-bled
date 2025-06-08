@@ -22,7 +22,7 @@ class CreationPoint:
             pyxel.text(3, 10+i*10, f"x: {self.lstPoint[i].x}, y: {self.lstPoint[i].y}", 0)
 
     def update(self, lstSec):
-        if pyxel.btnp(pyxel.MOUSE_BUTTON_LEFT):
+        if pyxel.btn(pyxel.MOUSE_BUTTON_LEFT):
             x, y = pyxel.mouse_x, pyxel.mouse_y
             secCourante = self.verifSection(x, y, lstSec)
             if secCourante != -1:

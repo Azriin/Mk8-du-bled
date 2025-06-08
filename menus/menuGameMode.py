@@ -2,7 +2,7 @@ import pyxel
 from menus.menu import Menu
 import addon_pyxel
 import constante as c
-import visuMap
+import engine.visuMap as visuMap
 
 class GameMode(Menu):
     def __init__(self, nom, actif):
