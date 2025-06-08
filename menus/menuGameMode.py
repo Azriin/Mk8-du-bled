@@ -28,6 +28,9 @@ class GameMode(Menu):
             ":5": addon_pyxel.BigTexte(218, 118, ":5"),
             "carte": addon_pyxel.BigTexte(192, 194, "maps")
         }
+
+        self.test = addon_pyxel.BoutonImage(135, 115, [216, 56, 10, 15], [0, 53, 16, 16])
+
         self.visu = visuMap.Visu(c.carte, 16/3)
         self.playable = True
 
@@ -64,6 +67,8 @@ class GameMode(Menu):
             pyxel.blt(1, 63+45*i, 0, 0, 87, 112, 3, 4)#barre
         pyxel.rectb(195, 144, 48, 48, 13)
         self.visu.draw(196, 145)
+
+        self.test.draw()
 
     def update(self):
         #jouer
@@ -107,3 +112,5 @@ class GameMode(Menu):
             c.nbr_player = self.nbr_joueur
         if self.tour != c.max_lape:
             c.max_lape = self.tour
+
+        self.test.update()

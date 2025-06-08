@@ -280,3 +280,52 @@ class Entry:
 
     def getText(self):
         return self.text
+
+class BoutonImage:
+    def __init__(self, x, y, matriceOFF, matriceON=None):
+        """
+        matrice = [u, v, w, h]\n
+        u = coo x sur l'image 0\n
+        v = coo y sur l'image 0\n
+        w = largeur zone \n
+        h = hauteur zone\n
+        """
+        self.x = x
+        self.y = y
+        self.matriceOFF = matriceOFF
+        self.matriceON = matriceON
+        self.actif = False
+
+    def centrer(self, m1, m2):
+        # d'ou -1//2 == -1 putain
+        self.x += int((m1[2] - m2[2])/2)
+        self.y += int((m1[3] - m2[3])/2)
+            
+
+    def getActif(self):
+        return self.actif
+
+    def draw(self):
+        if (self.actif and self.matriceON != None):
+            pyxel.blt(self.x, self.y, 0, *self.matriceON, 4)
+        else :
+            pyxel.blt(self.x, self.y, 0, *self.matriceOFF, 4)
+
+    def contacte(self):
+        matrice = self.matriceON if (self.actif and self.matriceON != None) else self.matriceOFF
+        return self.x <= pyxel.mouse_x <= self.x + matrice[2] and self.y <= pyxel.mouse_y <= self.y + matrice[3]
+        
+    def clic(self):
+        isClic = self.contacte() and pyxel.btnp(pyxel.MOUSE_BUTTON_LEFT)
+        if isClic:
+            pyxel.play(0, 0)
+        return isClic
+
+    def update(self):
+        if (self.clic()):
+            if (self.actif):
+                self.centrer(self.matriceON, self.matriceOFF)
+            else:
+                self.centrer(self.matriceOFF, self.matriceON)
+            self.actif = not(self.actif)
+            

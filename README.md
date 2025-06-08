@@ -17,8 +17,9 @@
 ## RESTE A FAIRE :
 - [ ] _ajouter un multi global_
 - [ ] _ajouter une IA modulable (facile moyenne difficile)_
-- [ ] _ajouter particule aux drifts_
+- [x] _ajouter particule aux drifts_
 - [ ] _ajouter un moyen de télécharger une carte si celle si n'existe pas chez le client_
-- [ ] _ajouter une gomme dans l'éditeur_
+- [x] _ajouter une gomme dans l'éditeur_
 - [ ] _ajouter un outils lignes pour faire des routes droites dans l'éditeur_
+- [ ] _ajouter la pocibilitee de jouer a plusieurs sur le meme pc en lan_
     
