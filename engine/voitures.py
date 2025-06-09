@@ -66,11 +66,10 @@ class Car:
             self.couleur += 1 if self.couleur < 4 else 0
         if pyxel.btnp(pyxel.KEY_D):
             self.couleur -= 1 if self.couleur > 0 else 0
-        # pyxel.pset(self.x+4 + 6 * pyxel.cos(self.degre), self.y+4 + 6 * pyxel.sin(self.degre), 7)
         self.draw_win(238, 2)
         pyxel.line(self.x, self.y, self.x+self.vx, self.y+self.vy, 8)
         pyxel.text(1, 1,f"""x = {self.x} | y = {self.y} 
-                   \nvitesse = {self.vitesse} | Vmax = {self.Vmax} | angle = {self.degre} | brake = {self.brake}
+                   \nvitesse = {self.vitesse} | Vmax = {self.Vmax} | angle = {self.degre} | movable = {"NEVER" if self.controle == None else not(self.brake)}
                     \nvx = {self.set_pas()[0]} | vy = {self.set_pas()[1]} 
                     \nsur route = {self.sur_route} | distance = {self.distance()}
                     \nmodulo = {self.degre%360} | arondie = {round(self.degre/90)*90}
@@ -87,7 +86,7 @@ class Car:
     def draw(self):
         indice = self.degre % 360 // (360//len(self.template))
         for coo in self.particulDrift:
-            pyxel.pset(coo[0], coo[1], 0 if self.sur_route else 9)
+            pyxel.pset(coo[0], coo[1], 0 if pyxel.pget(coo[0], coo[1]) in (13, 7, 0) else 9)
         pyxel.blt(self.x, self.y, 0, self.template[indice][0], 8*self.couleur, self.template[indice][1], self.template[indice][2], 4)
         
 
@@ -116,9 +115,9 @@ class Car:
         return y1 < self.y + 8 + (self.vy/distance) and self.y + (self.vy/distance) < y2
     
     def col_route(self):
-        self.sur_route = (pyxel.pget(self.x+4 + 6 * pyxel.cos(self.degre), self.y+4 + 6 * pyxel.sin(self.degre))) == 13 \
-                      or (pyxel.pget(self.x+4 + 6 * pyxel.cos(self.degre), self.y+4 + 6 * pyxel.sin(self.degre))) == 7  \
-                      or (pyxel.pget(self.x+4 + 6 * pyxel.cos(self.degre), self.y+4 + 6 * pyxel.sin(self.degre))) == 0  
+        val = pyxel.pget(self.x + 4 + 6 * pyxel.cos(self.degre), self.y + 4 + 6 * pyxel.sin(self.degre))
+        self.sur_route = val in (13, 7, 0)
+
 #deplacement
     def reverse_brake(self, val=None):
         if val == None:
@@ -221,7 +220,8 @@ class Car:
         return self.dist
 #update
     def update(self, hp, parts):
-        self.move()
+        if (self.controle != None):
+            self.move()
         self.playTutureVroumVroum()
         if abs(self.delta_degre) > self.debut_drift:
             self.actu_vecteur(self.set_pas_drift())

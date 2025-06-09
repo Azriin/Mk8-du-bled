@@ -1,4 +1,6 @@
 from engine.voitures import Car
+import constante as c
+import pyxel
 
 class Lst_Cars:
     def __init__(self, nbr, map):
@@ -10,7 +12,11 @@ class Lst_Cars:
         self.coo = [(-7, -1), (-1, -7), (1, -1), (-1, 1)]
         self.lst_voitures = []
         for i in range(self.nbr):
-            self.lst_voitures.append(Car(map[i][0]+self.coo[map[i][2]][0], map[i][1]+self.coo[map[i][2]][1], i, map[i][2]*90, self.controle[i%len(self.controle)]))
+            if (c.lst_player[i]):
+                self.lst_voitures.append(Car(map[i][0]+self.coo[map[i][2]][0], map[i][1]+self.coo[map[i][2]][1], i, map[i][2]*90, None))
+            else :
+                self.lst_voitures.append(Car(map[i][0]+self.coo[map[i][2]][0], map[i][1]+self.coo[map[i][2]][1], i, map[i][2]*90, self.controle[i%len(self.controle)]))
+        
         self.nbr_debug_car = 0
 
     def get_cars(self):
@@ -28,13 +34,6 @@ class Lst_Cars:
         for i in range(self.nbr):
             if eval(f"pyxel.btn(pyxel.KEY_{i+1})"):
                 self.nbr_debug_car = i
-
-    def add_car(self):
-        i = len(self.lst_voitures)
-        self.lst_voitures.append(Car(eval(self.info[map]["x"]), eval(self.info[map]["y"]), i, self.info[map]["angle"], self.controle[i%len(self.controle)]))
-
-    def rem_car(self):
-        self.lst_voitures.pop()
 
     def debug(self):
         self.lst_voitures[self.nbr_debug_car].debug()

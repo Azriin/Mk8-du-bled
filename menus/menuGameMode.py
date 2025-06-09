@@ -29,13 +29,17 @@ class GameMode(Menu):
             "carte": addon_pyxel.BigTexte(192, 194, "maps")
         }
 
-        self.test = addon_pyxel.BoutonImage(135, 115, [216, 56, 10, 15], [0, 53, 16, 16])
-
+        self.boutonNumJoueur = [addon_pyxel.BoutonImage(9, 35+i*45, [216+10*i, 56, 10, 15], [0, 53, 16, 16]) for i in range(c.MAX_PLAYER)]
+        
         self.visu = visuMap.Visu(c.carte, 16/3)
         self.playable = True
 
 
     def set_en_jeu(self):
+        #actu info
+        c.nbr_player = self.nbr_joueur
+        c.lst_player = [num.getActif() for num in self.boutonNumJoueur]
+        c.max_lape = self.tour
         super().set_nom("en_jeu")
 
     def set_principale(self):
@@ -59,7 +63,7 @@ class GameMode(Menu):
         if self.nbr_joueur != c.MIN_PLAYER:
             self.poussoir["rem"].draw()
         for i in range(self.nbr_joueur):
-            pyxel.blt(9, 35+i*45, 0, 216+10*i, 56, 10, 15, 4) #numéro
+            self.boutonNumJoueur[i].draw()
             pyxel.blt(27, 36+45*i, 0, 219, 243, 4, 12, 4)#: entre num et tuture
             pyxel.blt(63, 36+45*i, 0, 219, 243, 4, 12, 4)#: entre tuture et controle
             pyxel.blt(39, 36+45*i, 0, 16*i, 41, 16, 12, 4)#voiture
@@ -68,7 +72,6 @@ class GameMode(Menu):
         pyxel.rectb(195, 144, 48, 48, 13)
         self.visu.draw(196, 145)
 
-        self.test.draw()
 
     def update(self):
         #jouer
@@ -83,6 +86,9 @@ class GameMode(Menu):
             self.radtour[cle].animation()
             if self.radtour[cle].clic():
                 self.tour = cle
+        #numJoueur
+        for i in range(self.nbr_joueur):
+            self.boutonNumJoueur[i].update()
         #joueur
         if self.nbr_joueur != c.MAX_PLAYER:
             self.poussoir["add"].animation()
@@ -107,10 +113,4 @@ class GameMode(Menu):
                 super().reverse_actif()
                 super().set_nom("selecteur_map")
         else: self.playable = True
-        #actu info
-        if self.nbr_joueur != c.nbr_player:
-            c.nbr_player = self.nbr_joueur
-        if self.tour != c.max_lape:
-            c.max_lape = self.tour
-
-        self.test.update()
+        
