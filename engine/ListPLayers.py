@@ -1,4 +1,5 @@
 from engine.voitures import Car
+from engine.IaSimple import Ia
 import constante as c
 import pyxel
 
@@ -13,7 +14,7 @@ class Lst_Cars:
         self.lst_voitures = []
         for i in range(self.nbr):
             if (c.lst_player[i]):
-                self.lst_voitures.append(Car(map[i][0]+self.coo[map[i][2]][0], map[i][1]+self.coo[map[i][2]][1], i, map[i][2]*90, None))
+                self.lst_voitures.append(Ia(map[i][0]+self.coo[map[i][2]][0], map[i][1]+self.coo[map[i][2]][1], map[i][2]*90, i))
             else :
                 self.lst_voitures.append(Car(map[i][0]+self.coo[map[i][2]][0], map[i][1]+self.coo[map[i][2]][1], i, map[i][2]*90, self.controle[i%len(self.controle)]))
         

@@ -7,6 +7,9 @@ import time
 class LanInGame(InGames.In_game):
     def __init__(self, nom, actif, client):
         super().__init__(nom, actif)
+        if (len(c.lst_player) < c.nbr_lan_player):
+            c.lst_player = [False for _ in range(c.nbr_lan_player)]
+        self.restart()
         self.client = client
         self.temp = None
 

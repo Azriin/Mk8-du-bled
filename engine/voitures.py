@@ -115,6 +115,9 @@ class Car:
         return y1 < self.y + 8 + (self.vy/distance) and self.y + (self.vy/distance) < y2
     
     def col_route(self):
+        """
+        Verifie si la voiture est sur la un pixel noir/blanc/girs(bref si c'est sur route)
+        """
         val = pyxel.pget(self.x + 4 + 6 * pyxel.cos(self.degre), self.y + 4 + 6 * pyxel.sin(self.degre))
         self.sur_route = val in (13, 7, 0)
 
@@ -182,15 +185,16 @@ class Car:
                 self.delta_degre += abs(self.vitesse)
         else: self.delta_degre = 0
 
-    def actuCoo(self, id, newX, newY, newAngle):
-        self.lst_voitures[id].x = newX
-        self.lst_voitures[id].y = newY
-        self.lst_voitures[id].degre = newAngle
 #course
     def dist_point(self, point):
+        """
+        donne la distance entre la voiture et le la prochaine section"""
         self.dist = (((point[5][0]-self.x)**2)+((point[5][1]-self.y)**2))
 
     def part_actuel(self, parts):
+        """
+        assigne l'id de la partie ou se situe la voiture a self.part
+        """
         for p in parts:
             distance = self.distance()
             if distance == 0:
@@ -199,10 +203,17 @@ class Car:
                 self.part = p[4]
 
     def lst_part(self):
+        """
+        si la derniere partie de la course est la predeceseuse de la partie actuelle de la voiture,\n
+        alors il ajoute cette partie dans self.course
+        """
         if self.part == self.course[-1]+1:
             self.course.append(self.part)
 
-    def complet_lape(self, nbr):
+    def complet_lape(self, nbr:int):
+        """
+        +1 a lape si la voiture est passe dans toute les partie de la course et qu'elle est revenu a la partie 0
+        """
         if self.part != self.course[-1] and len(self.course) == nbr and self.part == 0:
             self.course = [0]
             self.lape += 1
@@ -220,23 +231,31 @@ class Car:
         return self.dist
 #update
     def update(self, hp, parts):
+        # input clavier
         if (self.controle != None):
             self.move()
-        self.playTutureVroumVroum()
+            self.playTutureVroumVroum()
+
+        # calcul la les vecteurs x et y
         if abs(self.delta_degre) > self.debut_drift:
             self.actu_vecteur(self.set_pas_drift())
         else: self.actu_vecteur(self.set_pas())
         distance = self.distance()
         if distance == 0:
             distance = 1
+
+        # les appliques si pas de colision sinon glisse contre mur
         self.try_move(hp, self.vx, 0, distance)
         self.try_move(hp, 0, self.vy, distance)
+
+        # magie
         self.col_route()
         self.part_actuel(parts)
         self.lst_part()
         self.complet_lape(len(parts))
         self.dist_point(parts[self.course[-1]])
 
+        # supprime les particules de drifts si existe depuis trop longtemps
         while (len(self.particulDrift) > 0 and self.particulDrift[0][2] + c.VIEPARTICULES <= pyxel.frame_count):
             self.particulDrift.pop(0)
 

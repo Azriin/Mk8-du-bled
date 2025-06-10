@@ -1,7 +1,7 @@
 VERSION = "v5.0"
 
 FRAME_RATE = 30
-ARRET = 5
+ARRET = 1
 
 VIEPARTICULES = FRAME_RATE * 3
 
@@ -10,7 +10,7 @@ MIN_PLAYER = 1
 
 #pa bo
 nbr_player = 3
-lst_player = [True, True, True]
+lst_player = [False, False, False]
 max_lape = 3
 carte = "CLASSICAL.txt"
 
