@@ -280,6 +280,9 @@ class Entry:
 
     def getText(self):
         return self.text
+    
+    def setText(self, text):
+        self.text = text
 
 class BoutonImage:
     def __init__(self, x, y, matriceOFF, matriceON=None):

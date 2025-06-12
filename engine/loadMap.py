@@ -18,6 +18,10 @@ class Load:
         self.tour = tour.Lape(self.info[2])
         self.starts = [buildStart.start(*elt) for elt in self.info[3]]
         self.deco = [buildDeco.Deco(*elt) for elt in self.info[4]]
+        self.fichier = fichier
+
+    def get_fichier(self):
+        return self.fichier
 
     def get_route(self):
         return self.info[0]
@@ -40,9 +44,7 @@ class Load:
 
     def draw(self):
         for route in self.info[0]:
-            if len(route) != 4:
-                pyxel.circ(*route, 16, 13)
-            else : pyxel.circ(*route)
+            pyxel.circ(*route)
         self.murs.draw()
         for start in self.starts:
             start.draw()

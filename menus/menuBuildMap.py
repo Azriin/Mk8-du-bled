@@ -110,6 +110,8 @@ class Editor(Menu):
                 "starts": stb.CreationStart(),
                 "deco": bd.MenuDeco()
             }
+            self.menu["save"].resetNom()
+            
             self.tool["erase"] = be.Erase(self.tool)
             self.menu["new"].newMap = False
 
@@ -117,10 +119,12 @@ class Editor(Menu):
     def set_load(self):
         if not self.menu["load"].getActif():
             self.menu["load"].set_actif(True)
+            self.menu["load"].reloadRep()
             self.guiTool.reset()
         self.menu["load"].update()
         if self.menu["load"].getSelection() != -1:
             carte = lm.Load(self.menu["load"].getCarte(self.menu["load"].getSelection())+".txt")
+            self.menu["save"].setNomFichier(carte.get_fichier()[:-4])
             self.tool["road"].loadRoad(carte.get_route())
             self.tool["wall"].loadMurs(carte.get_bordure())
             self.tool["separator"].loadSep(carte.get_separateur())

@@ -42,6 +42,12 @@ class SaveMenu:
 
     def getActif(self):
         return self.actif
+    
+    def setNomFichier(self, nom):
+        self.entre.setText(nom)
+
+    def resetNom(self):
+        self.entre.setText(str(datetime.datetime.now().date()).replace('-', ''))
 
 class Save:
     def __init__(self, nom, road, wall, separator, dist_next, starts, deco, erase):

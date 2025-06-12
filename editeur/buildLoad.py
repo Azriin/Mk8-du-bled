@@ -5,8 +5,8 @@ import os
 class LoadMenu:
     def __init__(self, actif):
         self.actif = actif
-        dossier = "./maps/"
-        self.lstCartes = [f[:-4] for f in os.listdir(dossier) if os.path.isfile(os.path.join(dossier, f))]
+        self.dossier = "./maps/"
+        self.lstCartes = [f[:-4] for f in os.listdir(self.dossier) if os.path.isfile(os.path.join(self.dossier, f))]
         self.page = 0
         self.selection = -1
         self.text = ap.BigTexte(43, 87, "load map:")
@@ -14,9 +14,7 @@ class LoadMenu:
 
     def update(self):
         if self.actif:
-            self.page += pyxel.mouse_wheel if 12*self.page > len(self.lstCartes) else 0
-            self.page = 0 if self.page < 0 else self.page
-
+            self.switchPage()
             self.back.animation()
             if self.back.clic() or self.selection != -1:
                 self.reset()
@@ -45,6 +43,11 @@ class LoadMenu:
                             pyxel.pset(96+59*col, 122+14*lig, 5)
                         pyxel.text(50+59*col, 114+14*lig, self.lstCartes[12*self.page+3*lig+col], 7)
 
+    def switchPage(self):
+        mouseVal = int(pyxel.sgn(pyxel.mouse_wheel))*-1
+        if ((mouseVal != 0) and (self.page + mouseVal >= 0) and (12*(self.page + mouseVal) <= len(self.lstCartes))):
+            self.page += mouseVal
+
     def getActif(self):
         return self.actif
     
@@ -57,6 +60,10 @@ class LoadMenu:
     def getCarte(self, i):
         return self.lstCartes[i]
 
+    def reloadRep(self):
+        self.lstCartes = [f[:-4] for f in os.listdir(self.dossier) if os.path.isfile(os.path.join(self.dossier, f))]
+
     def reset(self):
         self.selection = -1
         self.actif = False
+        

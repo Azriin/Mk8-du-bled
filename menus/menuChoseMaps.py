@@ -89,7 +89,7 @@ class ChoseMaps(Menu):
             for j in range(3):
                 if 6*self.page+3*i+j < len(self.lstCarte):
                     self.lstVisus[6*self.page+3*i+j].draw(25+81*j, 33+81*i)
-                    pyxel.text(24+81*j, 84+81*i, self.lstCarte[6*self.page+3*i+j], 0)
+                    pyxel.text(24+81*j, 84+81*i, self.lstCarte[6*self.page+3*i+j][:-4], 0)
                     col = 13
                     if self.selection == self.lstCarte[6*self.page+3*i+j]:
                         col = 10

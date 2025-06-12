@@ -26,9 +26,7 @@ class CreationPoint:
             x, y = pyxel.mouse_x, pyxel.mouse_y
             secCourante = self.verifSection(x, y, lstSec)
             if secCourante != -1:
-                for i in range(len(self.lstPoint)):
-                    if self.lstPoint[i].part == secCourante:
-                        self.lstPoint.pop(i)
+                self.lstPoint = [p for p in self.lstPoint if p.part != secCourante]
                 self.lstPoint.append(Point(*self.adjustCoo(x, y, lstSec[secCourante]), secCourante))
         elif pyxel.btnp(pyxel.KEY_BACKSPACE) and len(self.lstPoint) > 0:
             self.lstPoint.pop()
@@ -56,6 +54,4 @@ class CreationPoint:
         return (x, y)
     
     def loadDist(self, infos):
-        self.lstPoint = []
-        for info in infos:
-            self.lstPoint.append(Point(info[5][0], info[5][1], info[4]))
+        self.lstPoint = [Point(info[5][0], info[5][1], info[4]) for info in infos]
